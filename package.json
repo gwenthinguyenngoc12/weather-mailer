@@ -1,7 +1,7 @@
 {
   "name": "weather-mailer",
   "version": "1.0.0",
-  "description": "",
+  "description": "auto-email-weather-app/ ├── src/ │   ├── app.ts │   ├── server.ts │   │ │   ├── config/ │   │   ├── env.ts │   │   └── mail.ts │   │ │   ├── modules/ │   │   ├── users/ │   │   │   ├── user.controller.ts │   │   │   ├── user.service.ts │   │   │   ├── user.routes.ts │   │   │   └── user.model.ts │   │   │ │   │   ├── email/ │   │   │   ├── email.service.ts │   │   │   └── email.template.ts │   │   │ │   │   └── weather/ │   │       ├── weather.service.ts │   │       └── weather.types.ts │   │ │   ├── jobs/ │   │   └── weather-email.job.ts │   │ │   ├── database/ │   │   └── connection.ts │   │ │   ├── middlewares/ │   │   └── error.middleware.ts │   │ │   └── utils/ │       └── logger.ts │ ├── .env ├── .env.example ├── package.json ├── tsconfig.json ├── README.md └── .gitignore",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +27,7 @@
     "nodemailer": "^9.0.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.0",
     "@types/node-cron": "^3.0.11",
