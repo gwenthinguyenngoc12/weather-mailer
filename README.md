@@ -1,42 +1,27 @@
-auto-email-weather-app/
+weather-mailer/
 ├── src/
 │   ├── app.ts
 │   ├── server.ts
 │   │
-│   ├── config/
-│   │   ├── env.ts
-│   │   └── mail.ts
-│   │
 │   ├── modules/
 │   │   ├── users/
 │   │   │   ├── user.controller.ts
-│   │   │   ├── user.service.ts
 │   │   │   ├── user.routes.ts
-│   │   │   └── user.model.ts
+│   │   │   └── user.service.ts
 │   │   │
 │   │   ├── email/
 │   │   │   ├── email.service.ts
 │   │   │   └── email.template.ts
 │   │   │
 │   │   └── weather/
-│   │       ├── weather.service.ts
-│   │       └── weather.types.ts
-│   │
-│   ├── jobs/
-│   │   └── weather-email.job.ts
-│   │
-│   ├── database/
-│   │   └── connection.ts
-│   │
-│   ├── middlewares/
-│   │   └── error.middleware.ts
+│   │       └── weather.service.ts
 │   │
 │   └── utils/
-│       └── logger.ts
+│       └── async-handler.ts
 │
 ├── .env
 ├── .env.example
+├── .gitignore
 ├── package.json
 ├── tsconfig.json
-├── README.md
-└── .gitignore
+└── README.md
