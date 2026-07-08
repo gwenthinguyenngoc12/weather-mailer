@@ -1,5 +1,5 @@
-import { EmailService } from "../email/email.service";
-import { WeatherService } from "../weather/weather.service";
+import { EmailService } from "../email/email.service.js";
+import { WeatherService } from "../weather/weather.service.js";
 
 type RegisterUserInput = {
     name: string;

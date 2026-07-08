@@ -9,23 +9,23 @@ type SendWelcomeEmailInput = {
 }
 
 export class EmailService {
-    private transporter = nodemailer.createTransport({
-        host: process.env.MAIL_HOST,
-        port: Number(process.env.MAIL_PORT),
-        secure: false,
-        auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASS,
-        },
-    });
-
     async sendWelcomeEmail(input: SendWelcomeEmailInput) {
-        const { to, name, city, temperature} = input;
-        if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
-            throw new Error("Mail credentials are missing");
+        const { to, name, city, temperature } = input;
+
+        if (!process.env.MAIL_HOST) {
+            throw new Error("MAIL_HOST is missing");
         }
 
-        await this.transporter.sendMail({
+        const transporter = nodemailer.createTransport({
+            host: process.env.MAIL_HOST,
+            port: Number(process.env.MAIL_PORT),
+            secure: false,
+            auth: {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS,
+            }
+        })
+        await transporter.sendMail({
             from: process.env.MAIL_USER,
             to,
             subject: "Welcome to Weather Mailer",
