@@ -1,22 +1,24 @@
-#Dependencies
+# dependencies
 node_modules/
 
-# Environment variables
+# build output
+dist/
+build/
+
+# environment variables
 .env
+.env.local
+.env.*.local
 
-# Logs
-logs/
-*.log
+# logs
 npm-debug.log*
-
-# Playwright
-test-results/
-playwright-report/
-blob-report/
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # OS files
 .DS_Store
 
-# Editor
+# editor
 .vscode/
 .idea/
