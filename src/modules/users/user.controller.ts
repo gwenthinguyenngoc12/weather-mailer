@@ -6,17 +6,18 @@ export class UserController {
 
     register = async (req: Request, res: Response) => {
         try {
-            const {name, email} = req.body;
+            const {name, email, city} = req.body;
 
-            if (!name || !email) {
+            if (!name || !email ||!city) {
                 return res.status(400).json({
-                    message: "Name and email are required",
+                    message: "Name, email and city are required",
                 });
             }
 
             const result = await this.userService.registerUser({
                 name,
                 email,
+                city,
             });
 
             return res.status(201).json({

@@ -5,6 +5,7 @@ import { NewService } from "../news/news.service.js";
 type RegisterUserInput = {
     name: string;
     email: string;
+    city: string;
 };
 
 export class UserService {
@@ -14,15 +15,16 @@ export class UserService {
         private newService: NewService
     ) {}
     async registerUser(input: RegisterUserInput) {
-        const { name, email } = input;
+        const { name, email, city } = input;
 
         const user = {
             id: Date.now().toString(),
             name,
             email,
+            city,
         };
 
-        const weather = await this.weatherService.getCurrentWeather();
+        const weather = await this.weatherService.getCurrentWeather(city);
         const news = await this.newService.getTOPVNEXpressNews(10);
 
         await this.emailService.sendWelcomeEmail({

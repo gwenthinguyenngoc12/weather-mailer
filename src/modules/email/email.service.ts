@@ -22,6 +22,10 @@ export class EmailService {
             throw new Error("MAIL_HOST is missing");
         }
 
+        if (!process.env.MAIL_USER || !process.env.MAIL_PASS) {
+            throw new Error("Mail credentials are missing");
+        }
+
         const transporter = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
             port: Number(process.env.MAIL_PORT),

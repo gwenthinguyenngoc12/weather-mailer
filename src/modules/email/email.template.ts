@@ -12,7 +12,7 @@ type WelcomeEmailTemplateInput = {
 export function welcomeEmailTemplate(input: WelcomeEmailTemplateInput) {
     const { name, city, temperature, news = [] } = input;
     const newsHtml = news.map(
-        (item, index) => `
+        (item) => `
         <li>
             <a href="${item.link}" target="_blank">
             ${item.title}
