@@ -26,7 +26,7 @@ export function welcomeEmailTemplate(input: WelcomeEmailTemplateInput) {
         <h2>Hi, ${name}!</h2>
 
         <p>
-            The current temperature in <strong>${city}</strong> iss
+            The current temperature in <strong>${city}</strong> is
             <strong>${temperature}°C</strong>.
         </p>
 
