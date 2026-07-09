@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ReadableStreamDefaultController } from "stream/web";
+
 
 type OpenWeatherResponse = {
     name: string;
@@ -9,9 +9,8 @@ type OpenWeatherResponse = {
 };
 
 export class WeatherService {
-    async getCurrentWeather() {
+    async getCurrentWeather(city: string) {
         const apiKey = process.env.WEATHER_API_KEY;
-        const city = process.env.WEATHER_CITY || "Waterloo";
 
         if (!apiKey) {
             throw new Error ("WEATHER_API_KEY is missing");
