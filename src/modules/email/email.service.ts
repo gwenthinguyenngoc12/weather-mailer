@@ -1,16 +1,22 @@
 import nodemailer from "nodemailer";
 import { welcomeEmailTemplate } from "./email.template";
 
+type NewsItem = {
+    title: string;
+    link: string;
+};
+
 type SendWelcomeEmailInput = {
     to: string;
     name: string;
     city: string;
     temperature: number;
-}
+    news: NewsItem[];
+};
 
 export class EmailService {
     async sendWelcomeEmail(input: SendWelcomeEmailInput) {
-        const { to, name, city, temperature } = input;
+        const { to, name, city, temperature, news } = input;
 
         if (!process.env.MAIL_HOST) {
             throw new Error("MAIL_HOST is missing");
@@ -33,6 +39,7 @@ export class EmailService {
                 name,
                 city,
                 temperature,
+                news,
             }),
         });
     }
