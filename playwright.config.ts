@@ -4,9 +4,9 @@ export default defineConfig({
     testDir: "./tests",
     timeout: 120000,
     use: {
-        headless: true,
+        headless: false,
 
-        // Tạo trace khi test fail
+        // Tạo trace khi test
         trace: "on",
 
         // Optional: lưu screenshot khi fail
