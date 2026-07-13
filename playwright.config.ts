@@ -1,18 +1,26 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
     testDir: "./tests",
     timeout: 120000,
     use: {
-        headless: true,
+        headless: false,
 
-        // Tạo trace khi test fail
+        // Tạo trace khi test
         trace: "on",
 
         // Optional: lưu screenshot khi fail
-        screenshot: "only-on-failure",
+        screenshot: "on",
 
         // Optional: lưu video khi fail
-        video: "retain-on-failure",
+        video: "on",
     },
+     projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+  ],
 });
