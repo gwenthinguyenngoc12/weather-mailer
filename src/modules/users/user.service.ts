@@ -1,6 +1,7 @@
 import { EmailService } from "../email/email.service.js";
 import { WeatherService } from "../weather/weather.service.js";
 import { NewsService } from "../news/news.service.js";
+import { chromium } from "playwright";
 
 type RegisterUserInput = {
     name: string;
@@ -9,23 +10,35 @@ type RegisterUserInput = {
 };
 
 export class UserService {
+    [x: string]: any;
     constructor(
         private emailService: EmailService,
         private weatherService: WeatherService,
         private newService: NewsService
-    ) {}
+    ) { }
     async registerUser(input: RegisterUserInput) {
         const { name, email, city } = input;
 
         const user = {
-            id: Date.now().toString(),
             name,
             email,
             city,
+            createdAt: new Date(),
         };
 
+
+
         const weather = await this.weatherService.getCurrentWeather(city);
-        const news = await this.newService.getTopVnExpressNews(10);
+        const browser = await chromium.launch({
+            headless: true,
+        });
+
+        const page = await browser.newPage();
+
+        const news = await this.newsService.getTopVnExpressNews(
+            page,
+            "https://vnexpress.net/",
+        );
 
         await this.emailService.sendWelcomeEmail({
             to: email,
