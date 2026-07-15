@@ -43,7 +43,7 @@ test("Should fetch 10 lastest Vnexpress news, get weather and send email", async
 });
 
 test("Should click Sports category, fetch 10 sports news and send email", async ({
-    page,
+    page, context
 }) => {
     const newsService = new NewsService();
 
@@ -101,18 +101,85 @@ test("Should click Sports category, fetch 10 sports news and send email", async 
         }
     });
 
-    await test.step("Get current weather", async () => {
-        const weather = await weatherService.getCurrentWeather(city);
+    let weatherCity = "North York";
+    let temperature = 0;
 
-        expect(weather.city).toBeTruthy();
-        expect(typeof weather.temperature).toBe("number");
+    await test.step(
+        "Get weather from The Weather Network",
+        async () => {
+            const weatherPage = await context.newPage();
 
+            await weatherPage.goto(
+                "https://www.theweathernetwork.com/en/city/ca/ontario/north-york/current",
+                {
+                    waitUntil: "domcontentloaded",
+                    timeout: 60000,
+                },
+            );
+
+            await weatherPage.waitForLoadState("domcontentloaded");
+
+            await expect(weatherPage).toHaveTitle(
+                /North York.*Current Weather/i,
+            );
+
+            const weatherData = await weatherPage.evaluate(() => {
+                const bodyText = document.body.innerText;
+
+                const cityMatch = bodyText.match(
+                    /North York,\s*ON/i,
+                );
+
+                const temperatureMatch =
+                    bodyText.match(
+                        /North York,\s*ON[\s\S]*?Updated.*?\n\s*(-?\d+)\s*\n\s*°C/i,
+                    ) ??
+                    bodyText.match(
+                        /current temperature in North York\?\s*(-?\d+)\s*°/i,
+                    );
+
+                const feelsLikeMatch =
+                    bodyText.match(/Feels\s*(-?\d+)/i);
+
+                const conditionMatch =
+                    bodyText.match(
+                        /°C\s*\n\s*([A-Za-z][A-Za-z\s]+?)\s*\n\s*Feels/i,
+                    );
+
+                return {
+                    city: cityMatch?.[0] ?? "North York, ON",
+                    temperature: temperatureMatch
+                        ? Number(temperatureMatch[1])
+                        : Number.NaN,
+                    feelsLike: feelsLikeMatch
+                        ? Number(feelsLikeMatch[1])
+                        : undefined,
+                    condition:
+                        conditionMatch?.[1]?.trim() ?? "",
+                };
+            });
+
+            expect(
+                Number.isNaN(weatherData.temperature),
+                "Không lấy được nhiệt độ từ The Weather Network",
+            ).toBeFalsy();
+
+            weatherCity = weatherData.city;
+            temperature = weatherData.temperature;
+
+            console.log("Weather data:", weatherData);
+
+            await weatherPage.close();
+        },
+    );
+
+    await test.step("Send email", async () => {
         await emailService.sendWelcomeEmail({
             to: receiverEmail as string,
             name: "Luan",
-            temperature: weather.temperature,
+            city: weatherCity,
+            temperature,
             news: sportsNews,
-            city: weather.city,
         });
     });
 });

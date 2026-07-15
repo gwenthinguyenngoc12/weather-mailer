@@ -17,8 +17,8 @@ export function welcomeEmailTemplate(
     news,
   } = input;
   const newsItemsHtml = news.map((item) => {
-        const imageHtml = item.imageUrl
-          ? `
+    const imageHtml = item.imageUrl
+      ? `
             <div style="margin: 12px 0;">
               <img
                 src="${item.imageUrl}"
@@ -33,10 +33,10 @@ export function welcomeEmailTemplate(
               />
             </div>
           `
-          : "";
+      : "";
 
-        const descriptionHtml = item.description
-          ? `
+    const descriptionHtml = item.description
+      ? `
             <p style="
               margin: 0 0 10px 0;
               color: #444;
@@ -46,10 +46,10 @@ export function welcomeEmailTemplate(
               ${escapeHtml(item.description)}
             </p>
           `
-          : "";
+      : "";
 
-        const publishedAtHtml = item.publishedAt
-          ? `
+    const publishedAtHtml = item.publishedAt
+      ? `
             <p style="
               margin: 0 0 10px 0;
               color: #777;
@@ -58,9 +58,9 @@ export function welcomeEmailTemplate(
               Thời gian đăng: ${escapeHtml(item.publishedAt)}
             </p>
           `
-          : "";
+      : "";
 
-        return `
+    return `
           <div style="
             padding: 18px 0;
             border-bottom: 1px solid #e5e5e5;
@@ -96,10 +96,10 @@ export function welcomeEmailTemplate(
             </a>
           </div>
         `;
-      })
-      .join("");
+  })
+    .join("");
 
-    return `
+  return `
       <!DOCTYPE html>
       <html lang="vi">
         <head>
@@ -145,7 +145,40 @@ export function welcomeEmailTemplate(
                 tự động tổng hợp từ VnExpress.
               </p>
             </div>
+            <div style="
+              margin: 20px 0;
+              padding: 16px;
+              background-color: #f2f7ff;
+              border-radius: 8px;
+              border-left: 4px solid #3578e5;
+            ">
+              <h2 style="
+                margin: 0 0 10px 0;
+                font-size: 20px;
+                color: #222;
+              ">
+                Thời tiết hiện tại
+              </h2>
 
+               <p style="
+                margin: 0;
+                font-size: 16px;
+                color: #444;
+              ">
+                Địa điểm:
+                  <strong>${escapeHtml(city)}</strong>
+                </p>
+
+                <p style="
+                  margin: 8px 0 0 0;
+                  font-size: 16px;
+                  color: #444;
+                ">
+                  Nhiệt độ:
+                  <strong>${temperature}°C</strong>
+                </p>
+              </div>
+              
             ${newsItemsHtml}
 
             <div style="
@@ -163,13 +196,13 @@ export function welcomeEmailTemplate(
         </body>
       </html>
     `;
-  }
+}
 
-  function escapeHtml(value: string): string {
-    return value
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
