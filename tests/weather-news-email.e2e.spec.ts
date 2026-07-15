@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 import { NewsService } from "../src/modules/news/news.service.ts";
 import { WeatherService } from "../src/modules/weather/weather.service.ts";
 import { EmailService } from "../src/modules/email/email.service.ts";
+import type { NewsItem } from "../src/types/news.type.ts";
 
 
 
@@ -45,6 +46,7 @@ test("Should click Sports category, fetch 10 sports news and send email", async 
     page,
 }) => {
     const newsService = new NewsService();
+
     const receiverEmail = process.env.TEST_RECEIVER_EMAIL;
     const city = process.env.TEST_CITY || "North york";
 
@@ -61,9 +63,13 @@ test("Should click Sports category, fetch 10 sports news and send email", async 
     await expect(page).toHaveTitle(/VnExpress/);
 
     await test.step("Click Sports category", async () => {
-        const sportsLink = page
-            .locator('a[href*="/the-thao"]')
-            .first();
+        const sportsLink = page.getByRole("link", {
+            name: "Thể thao",
+        }).first();
+
+        await expect(sportsLink).toBeVisible({
+            timeout: 3000,
+        });
 
         await expect(sportsLink).toBeVisible();
         await Promise.all([
@@ -78,9 +84,7 @@ test("Should click Sports category, fetch 10 sports news and send email", async 
         await expect(page).toHaveURL(/\/the-thao/);
     });
 
-    let sportsNews: Awaited<
-        ReturnType<NewsService["extractTop10NewsFromCurrentPage"]>
-    > = [];
+    let sportsNews: NewsItem[] = [];
 
     await test.step("Fetch top 10 sports news", async () => {
         sportsNews =
