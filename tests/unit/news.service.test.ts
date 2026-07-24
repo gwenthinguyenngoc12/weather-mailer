@@ -13,6 +13,10 @@ describe("NewsService", () => {
 
     let pageMock: Page;
 
+ 
+
+    const url = "https://vnexpress.net";
+
     beforeEach(() => {
         newsService = new NewsService();
 
@@ -30,7 +34,6 @@ describe("NewsService", () => {
     });
 
     it("should navigate to URL and return valid news", async () => {
-        const url = "https://vnexpress.net";
 
         evaluateMock.mockResolvedValue([]);
 
@@ -47,6 +50,8 @@ describe("NewsService", () => {
             timeout: 6000,
         });
     });
+
+    it("should filter invalid articles", async () => {
 
     it("should filter invalid articles", async () => {
         const url = "https://vnexpress.net";
