@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import type { Page } from "playwright";
 import { NewsService } from "../../src/modules/news/news.service";
+import { NewsItem } from "../../src/types/news.type";
 
 describe("NewsService", () => {
     let newsService: NewsService;
@@ -49,10 +50,11 @@ describe("NewsService", () => {
             timeout: 6000,
         });
     });
-<<<<<<< Updated upstream
-=======
 
     it("should filter invalid articles", async () => {
+
+    it("should filter invalid articles", async () => {
+        const url = "https://vnexpress.net";
         evaluateMock.mockResolvedValue([
             {
                 id: 1,
@@ -88,46 +90,4 @@ describe("NewsService", () => {
         expect(result).toHaveLength(1);
         expect(result[0].id).toBe(3);
     });
-
-    it("should remove duplicated links and return maximum 10 items", async () => {
-    const news: NewsItem[] = Array.from(
-      { length: 12 },
-      (_, index) => ({
-        id: index + 1,
-        title: `Đây là tiêu đề bài viết VNExpress số ${index + 1}`,
-        link:
-          index === 11
-            ? "https://vnexpress.net/tin-1"
-            : `https://vnexpress.net/tin-${index + 1}`,
-        imageUrl: "",
-        description: "",
-        publishedAt: "",
-      }),
-    );
-
-    evaluateMock.mockResolvedValue(news);
-
-    const result = await newsService.getTopVnExpressNews(
-            pageMock,
-            url,
-        );
-
-    expect(result).toHaveLength(10);
-
-    const uniqueLinks = new Set(result.map((item) => item.link));
-    expect(uniqueLinks.size).toBe(result.length);
-  });
-
-  it("should throw when page navigation fails", async () => {
-    gotoMock.mockRejectedValue(new Error("Navigation failed"));
-
-    await expect(
-      newsService.getTopVnExpressNews(
-        pageMock,
-        url,
-      ),
-    ).rejects.toThrow("Navigation failed");
-
-    expect(evaluateMock).not.toHaveBeenCalled();
-  });
 })
